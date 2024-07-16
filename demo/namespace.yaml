@@ -1,9 +1,23 @@
-apiVersion: v1
-kind: Namespace
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
 metadata:
-  labels:
-    pod-security.kubernetes.io/audit: privileged
-    pod-security.kubernetes.io/enforce: privileged
-    pod-security.kubernetes.io/warn: privileged
-    istio-injection: disabled
-  name: argocd-test-namespace
+  name: argocd-server1
+  namespace: default
+spec:
+  hosts:
+    - mydevops.yao.net
+  gateways:
+    - istio-system/mydevops-istio-gateway
+  exportTo:
+    - "."
+    - istio-system
+  http:
+    - match:
+        - uri:
+            prefix: /argocd123
+      name: argocd-http
+      route:
+        - destination:
+            host: argocd-server
+            port:
+              number: 443
