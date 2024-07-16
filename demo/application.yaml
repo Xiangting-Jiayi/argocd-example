@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test321
+  namespace: argocd-system
+spec:
+  destination:
+    namespace: '*'
+    server: https://kubernetes.default.svc
+  project: argocd-demo
+  source:
+    path: demo
+    repoURL: https://github.com/Xiangting-Jiayi/argocd-example.git
+    targetRevision: main
